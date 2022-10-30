@@ -71,7 +71,6 @@ export default function Row(props) {
       if (black === 4) {
         // The game is won!
         dispatch({ type: "gameWon" });
-        return;
       }
 
       // The next row becomes active:
