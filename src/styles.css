@@ -1,0 +1,164 @@
+:root {
+  --peg-size: 40px;
+  --text-color: #0e0d45;
+  --border-color: rgba(200, 200, 200, 1);
+  --hint-size: 14px;
+  --hint-border-size: 3px;
+  --hint-translation: calc((var(--hint-size) - var(--hint-border-size)) / -2);
+}
+
+.App {
+  font-family: "Roboto Slab", serif;
+  text-align: center;
+  color: var(--text-color);
+  max-width: 500px;
+  margin: 20px auto;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+}
+
+.App .main {
+  display: grid;
+  grid-template-columns: 0.8fr 0.2fr;
+  margin-bottom: 20px;
+}
+
+.Header h1 {
+  font-size: 2.5rem;
+  letter-spacing: 0.3rem;
+  margin: 15px 0;
+}
+
+.Header button {
+  font-weight: 500;
+  background-color: #ffc107;
+  color: var(--text-color);
+  border: none;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  border-radius: 5px;
+  padding: 5px 8px;
+  margin-bottom: 15px;
+}
+
+.Header p {
+  font-size: 0.875rem;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  width: 80%;
+}
+
+.Pegs {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: left;
+  margin-left: 15px;
+  margin-top: 15px;
+}
+
+.Pegs .peg {
+  width: var(--peg-size);
+  height: var(--peg-size);
+  border-radius: 50%;
+  border: 3px solid var(--border-color);
+}
+
+.Pegs .peg.active {
+  border: 4px solid black;
+}
+
+.Row {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  justify-content: right;
+  align-items: center;
+  padding: 5px;
+  margin-right: 15px;
+}
+
+.Row .peg {
+  width: var(--peg-size);
+  height: var(--peg-size);
+  border-radius: 50%;
+  border: 3px solid var(--border-color);
+}
+
+.Row .peg.active {
+  background-color: rgb(198, 198, 198);
+}
+
+.Row .check {
+  width: var(--peg-size);
+  height: var(--peg-size);
+  border: 3px solid rgba(200, 200, 200, 0.7);
+  border-radius: 10px;
+  font-size: var(--peg-size);
+  color: var(--border-color);
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.Row .check div {
+  position: relative;
+  top: -0.125rem;
+  line-height: 100%;
+}
+
+.Row .check.hovering:hover {
+  color: rgb(0, 160, 0);
+  border: 3px solid rgba(0, 160, 0, 0.7);
+}
+
+.Row .check.used {
+  color: rgb(0, 110, 0);
+  border: 3px solid rgba(0, 110, 0, 0.7);
+}
+
+.Hint {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  margin-left: 10px;
+}
+
+.Hint div {
+  height: var(--hint-size);
+  width: var(--hint-size);
+  border: var(--hint-border-size) solid var(--border-color);
+  border-radius: 50%;
+}
+
+.Hint .black {
+  border: var(--hint-border-size) solid black;
+  background-color: black;
+}
+
+.Hint .white {
+  border: var(--hint-border-size) solid black;
+}
+
+.Hint .wrong {
+  position: relative;
+  border: solid var(--hint-border-size) black;
+  border-radius: 50%;
+}
+
+.Hint .wrong::before,
+.Hint .wrong::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-right: var(--hint-border-size) solid black;
+}
+
+.Hint .wrong::before {
+  transform: rotate(45deg) translate(var(--hint-translation), 0);
+}
+
+.Hint .wrong::after {
+  transform: rotate(-45deg) translate(var(--hint-translation), 0);
+}
