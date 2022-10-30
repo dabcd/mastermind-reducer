@@ -4,6 +4,7 @@ import { StoreDispatch } from "./App";
 
 export default function Pegs(props) {
   const dispatch = React.useContext(StoreDispatch);
+
   return (
     <div className="Pegs">
       {colors.map((color, index) => (

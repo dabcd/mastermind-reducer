@@ -9,10 +9,6 @@ export default function Header(props) {
 
   const [isShowRules, setIsShowrules] = React.useState(false);
 
-  function showRules() {
-    setIsShowrules((prev) => !prev);
-  }
-
   function newGame() {
     // Play a new game:
     dispatch({ type: "gamePlayAgain" });
@@ -30,7 +26,7 @@ export default function Header(props) {
       )}
       {!props.store.isWon && !props.store.isLost && (
         <div>
-          <button onClick={showRules}>
+          <button onClick={() => setIsShowrules((prev) => !prev)}>
             {isShowRules ? "Hide rules" : "Show rules"}
           </button>
           {isShowRules ? <p>{Rules}</p> : null}

@@ -25,7 +25,7 @@ export default function Row(props) {
     dispatch({ type: "shiftActiveRow" });
 
     // Check if the game is lost
-    if (props.id === INT_CHOICES - 1 && props.store.isWon === false) {
+    if (props.id === INT_CHOICES - 1 && !props.store.isWon) {
       dispatch({ type: "gameLost" });
     }
   }
