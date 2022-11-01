@@ -1,13 +1,5 @@
 // Global state functions
 
-function drawColors() {
-  let a = [];
-  for (let i = 0; i < 4; i++) {
-    a.push(Math.floor(Math.random() * 6));
-  }
-  return a;
-}
-
 export const initialStore = {
   isWon: false,
   isLost: false,
@@ -26,7 +18,7 @@ export function reducer(state, action) {
     case "gamePlayAgain":
       return { ...state, isPlayAgain: true };
     case "drawNewColors":
-      return { ...state, draw: drawColors() };
+      return { ...state, draw: action.payload };
     case "activeColor":
       return { ...state, activeColor: action.payload };
     case "shiftActiveRow":

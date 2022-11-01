@@ -6,6 +6,14 @@ import Pegs from "./Pegs";
 import { INT_CHOICES } from "./prefs";
 import { initialStore, reducer } from "./store";
 
+function drawColors() {
+  let a = [];
+  for (let i = 0; i < 4; i++) {
+    a.push(Math.floor(Math.random() * 6));
+  }
+  return a;
+}
+
 export const StoreDispatch = createContext(null);
 
 export default function App() {
@@ -22,7 +30,8 @@ export default function App() {
     // Reset the store
     dispatch({ type: "reset" });
 
-    dispatch({ type: "drawNewColors" });
+    const randomColors = drawColors();
+    dispatch({ type: "drawNewColors", payload: randomColors });
 
     // nanoid generated keys for the Rows
     let k = [];
