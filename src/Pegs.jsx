@@ -1,16 +1,17 @@
-import React from "react";
+import { useContext } from "react";
 import { colors } from "./prefs";
-import { StoreDispatch } from "./App";
+import { StoreDispatch, StoreState } from "./App";
 
-export default function Pegs(props) {
-  const dispatch = React.useContext(StoreDispatch);
+export default function Pegs() {
+  const dispatch = useContext(StoreDispatch);
+  const store = useContext(StoreState);
 
   return (
     <div className="Pegs">
       {colors.map((color, index) => (
         <div
           key={index}
-          className={props.store.activeColor === index ? "peg active" : "peg"}
+          className={store.activeColor === index ? "peg active" : "peg"}
           style={{ backgroundColor: color }}
           onClick={() => dispatch({ type: "activeColor", payload: index })}
         ></div>

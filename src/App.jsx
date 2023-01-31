@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useState, useEffect } from "react";
+import { createContext, useReducer, useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 import Header from "./Header";
 import Row from "./Row";
@@ -15,21 +15,26 @@ function drawColors() {
 }
 
 export const StoreDispatch = createContext(null);
+export const StoreState = createContext(null);
+
+let didInit = false;
 
 export default function App() {
   // global state:
   const [store, dispatch] = useReducer(reducer, initialStore);
 
-  // Initial keys for Rows are needed before useEffect
-  // generates real ones using nanoid
   const [keysRows, setKeysRows] = useState(
     Array.from(Array(INT_CHOICES).keys())
   );
 
   useEffect(() => {
-    // Reset the store
-    dispatch({ type: "reset" });
+    if (!didInit) {
+      didInit = true;
+      initGame();
+    }
+  }, []);
 
+  function initGame() {
     const randomColors = drawColors();
     dispatch({ type: "drawNewColors", payload: randomColors });
 
@@ -39,28 +44,31 @@ export default function App() {
       k.push(nanoid());
     }
     setKeysRows(k);
-  }, [store.isPlayAgain]);
+  }
+
+  if (store.isPlayAgain) {
+    // Reset the store
+    dispatch({ type: "reset" });
+
+    initGame();
+  }
 
   let rowElements = [];
   for (let i = 0; i < INT_CHOICES; i++) {
-    rowElements.push(
-      <Row
-        key={keysRows[i]}
-        id={i}
-        store={store}
-      />
-    );
+    rowElements.push(<Row key={keysRows[i]} id={i} />);
   }
 
   return (
     <StoreDispatch.Provider value={dispatch}>
-      <div className="App">
-        <Header store={store} />
-        <div className="main">
-          <div>{rowElements}</div>
-          <Pegs store={store} />
+      <StoreState.Provider value={store}>
+        <div className="App">
+          <Header />
+          <div className="main">
+            <div>{rowElements}</div>
+            <Pegs />
+          </div>
         </div>
-      </div>
+      </StoreState.Provider>
     </StoreDispatch.Provider>
   );
 }

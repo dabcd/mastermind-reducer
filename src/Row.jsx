@@ -1,21 +1,22 @@
-import React from "react";
+import { useState, useContext } from "react";
 import Hint from "./Hint";
 import { colors, INT_CHOICES } from "./prefs";
-import { StoreDispatch } from "./App";
+import { StoreDispatch, StoreState } from "./App";
 
 export default function Row(props) {
-  const [pegs, setPegs] = React.useState([null, null, null, null]);
-  const [hint, setHint] = React.useState([null, null, null, null]);
+  const [pegs, setPegs] = useState([null, null, null, null]);
+  const [hint, setHint] = useState([null, null, null, null]);
 
-  const dispatch = React.useContext(StoreDispatch);
+  const dispatch = useContext(StoreDispatch);
+  const store = useContext(StoreState);
 
-  const isThisRowActive = props.store.activeRow === props.id ? true : false;
+  const isThisRowActive = store.activeRow === props.id ? true : false;
 
   function choosePeg(id) {
-    if (!props.store.isLost && !props.store.isWon && isThisRowActive) {
+    if (!store.isLost && !store.isWon && isThisRowActive) {
       setPegs((prevs) =>
         prevs.map((prev, index) =>
-          index === id ? (prev = props.store.activeColor) : prev
+          index === id ? (prev = store.activeColor) : prev
         )
       );
     }
@@ -25,7 +26,7 @@ export default function Row(props) {
     dispatch({ type: "shiftActiveRow" });
 
     // Check if the game is lost
-    if (props.id === INT_CHOICES - 1 && !props.store.isWon) {
+    if (props.id === INT_CHOICES - 1 && !store.isWon) {
       dispatch({ type: "gameLost" });
     }
   }
@@ -39,7 +40,7 @@ export default function Row(props) {
 
       // Counting correct positions & colors (blacks):
       for (let i = 0; i < 4; i++) {
-        if (pegs[i] === props.store.draw[i]) {
+        if (pegs[i] === store.draw[i]) {
           black++;
         }
       }
@@ -47,7 +48,7 @@ export default function Row(props) {
       // Counting correct colors regardless of positions (whites + blacks)
       for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 4; j++) {
-          if (pegs[j] === props.store.draw[i] && !flags[j]) {
+          if (pegs[j] === store.draw[i] && !flags[j]) {
             white++;
             flags[j] = true;
             break;
@@ -90,7 +91,7 @@ export default function Row(props) {
       ))}
       <div
         className={
-          props.store.activeRow > props.id
+          store.activeRow > props.id
             ? "check used"
             : !pegs.includes(null)
             ? "check hovering :hover"
